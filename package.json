@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --inspect=9029 --transpileOnly ./src/index.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register -r dotenv/config --respawn --inspect=9029 --transpileOnly ./src/index.ts",
     "db:rm": "docker rm -f habits-db",
     "db:reset": "docker rm -f habits-db ; docker run --name habits-db -d -p 5433:5432 -e POSTGRES_PASSWORD=habits -e POSTGRES_USER=habits -e POSTGRES_DB=habits_db postgres:12.1",
     "db:run": "docker start habits-db && echo 'already created' || docker run --name habits-db -d -p 5433:5432 -e POSTGRES_PASSWORD=habits -e POSTGRES_USER=habits -e POSTGRES_DB=habits_db postgres:12.1",
@@ -54,6 +54,7 @@
     "class-transformer": "0.2.3",
     "class-validator": "0.12.0-rc.0",
     "cors": "2.8.5",
+    "dotenv": "8.2.0",
     "express": "4.17.1",
     "express-pino-logger": "4.0.0",
     "jsonwebtoken": "8.5.1",

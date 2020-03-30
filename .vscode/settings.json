@@ -1,6 +1,31 @@
 {
-    "cSpell.ignoreWords": [
-        "express",
-        "pino"
-    ]
+  "cSpell.words": [
+    "Datetime",
+    "Graphiql",
+    "Inflector",
+    "Inflectors",
+    "Postgres",
+    "errcode",
+    "fkey",
+    "graphile",
+    "inprogress",
+    "jsonb",
+    "mimetype",
+    "pgpool",
+    "pgraphile",
+    "pino",
+    "plpgsql",
+    "postgraphile",
+    "timestamptz",
+    "trgm",
+    "tsquery",
+    "typedi",
+    "typeorm",
+    "unflatten",
+    "upsert",
+    "websearch"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.enableFiletypes": ["plaintext", "typescript"]
 }

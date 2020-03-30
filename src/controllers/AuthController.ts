@@ -1,17 +1,12 @@
-import { JsonController, Body, Post, Get } from 'routing-controllers';
+import { Body, JsonController, Post, Get } from 'routing-controllers';
 import { AuthService, RegisterPayload } from 'src/services/AuthService';
-import { Inject } from 'typedi';
 
 @JsonController('/auth')
 export class AuthController {
-    @Inject() private authService: AuthService;
+    constructor(private authService: AuthService) {}
 
-    @Get('/test')
-    test() {
-        console.log({ 'this.authService': this.authService });
-
-        return this.authService.test();
-    }
+    @Get('/')
+    test = () => 'asdd';
 
     @Post('/login')
     async login(@Body() body: { login: string; password: string }) {

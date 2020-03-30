@@ -1,11 +1,11 @@
 import { defaultConfig } from './default';
 import { DeepPartial } from 'utility-types';
 
-type ApiEnv = 'dev' | 'prod';
-type Config = typeof defaultConfig;
+export type ApiEnv = 'dev' | 'prod';
+export type Config = typeof defaultConfig;
 export type OverwriteConfig = DeepPartial<Config>;
 
-const env = (process.env.API_ENV as ApiEnv) || 'dev';
+const env = (process.env.NODE_ENV as ApiEnv) || 'dev';
 
 const configsMap: Record<ApiEnv, Config> = {
     dev: require('./default')?.default,
@@ -13,3 +13,5 @@ const configsMap: Record<ApiEnv, Config> = {
 };
 
 export const config: Config = configsMap[env] || defaultConfig;
+
+console.log(config);

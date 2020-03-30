@@ -4,7 +4,7 @@ import { UserEntity } from 'src/entities/UserEntity';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 import { config } from '../config';
 import { JwtPayload } from '../types';
 import { badRequest, invalidOperation } from '../utils/result';
@@ -22,10 +22,6 @@ export class AuthService {
         private userRepo: Repository<UserEntity>,
     ) {}
 
-    test() {
-        return 'test from AuthService';
-    }
-
     async loginByPassword(login: string, password: string) {
         const user = await this.userRepo.findOne({ login });
         if (!user) {
@@ -40,15 +36,16 @@ export class AuthService {
 
     async registerUser(args: RegisterPayload) {
         const { email, login } = args;
+        console.log(args);
         const hashedPassword = await bcrypt.hash(args.password, 10);
-        const id = uuid.v4();
+        const id = v4();
         const accessToken = this.creteAccessToken(id);
         await this.userRepo.create({ id, email, login, password: hashedPassword });
         return { accessToken };
     }
 
     private creteAccessToken(userId: string) {
-        const jwtPayload = { sub: userId, iss: 'ludwig' } as JwtPayload;
+        const jwtPayload = { sub: userId, iss: 'habits' } as JwtPayload;
         return jwt.sign(jwtPayload, config.auth.jwtSecret, { expiresIn: '30 days' });
     }
 }

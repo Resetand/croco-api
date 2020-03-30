@@ -1,7 +1,11 @@
+import { ApiEnv } from 'src/config';
+require('dotenv').config();
+
 export const defaultConfig = {
     port: 4001,
+    env: process.env.NODE_ENV as ApiEnv,
     auth: {
-        jwtSecret: '' || process.env.JWT_SECRET!,
+        jwtSecret: process.env.JWT_SECRET!,
     },
     db: {
         type: 'postgres' as const,
