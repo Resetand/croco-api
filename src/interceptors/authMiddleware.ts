@@ -32,6 +32,7 @@ export const createAuth = () => {
         try {
             const { authorization } = request.headers;
             if (!authorization) {
+                console.log({ authorization });
                 return next();
             }
 
@@ -59,7 +60,9 @@ export const createAuth = () => {
                 return next(new InvalidAccessToken(error.message));
             }
 
-            response.locals.userId = payload.sub;
+            response.locals.user = {
+                id: payload.sub,
+            };
             next();
         } catch (e) {
             return next(e);

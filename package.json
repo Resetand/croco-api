@@ -9,7 +9,8 @@
     "db:reset": "docker rm -f habits-db ; docker run --name habits-db -d -p 5433:5432 -e POSTGRES_PASSWORD=habits -e POSTGRES_USER=habits -e POSTGRES_DB=habits_db postgres:12.1",
     "db:run": "docker start habits-db && echo 'already created' || docker run --name habits-db -d -p 5433:5432 -e POSTGRES_PASSWORD=habits -e POSTGRES_USER=habits -e POSTGRES_DB=habits_db postgres:12.1",
     "migration": "ts-node -r tsconfig-paths/register src/scripts/migrations/run",
-    "migration:create": "typeorm migration:create -n"
+    "migration:create": "typeorm migration:create -n",
+    "lint": "eslint src --ext=.ts"
   },
   "husky": {
     "hooks": {
@@ -17,11 +18,8 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,ts,json,md,yml}": [
-      "prettier --write"
-    ],
     "**/*.ts": [
-      "eslint --fix-dry-run"
+      "eslint src --ext=.ts --fix-dry-run"
     ]
   },
   "author": "Resetand",

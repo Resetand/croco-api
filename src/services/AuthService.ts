@@ -7,10 +7,10 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { v4 } from 'uuid';
 import { config } from '../config';
 import { JwtPayload } from '../types';
-import { badRequest, invalidOperation } from '../utils/result';
+import { badRequest, error, invalidOperation } from '../utils/result';
 
 export type RegisterPayload = {
-    login: string;
+    username: string;
     password: string;
     email: string;
 };
@@ -22,25 +22,29 @@ export class AuthService {
         private userRepo: Repository<UserEntity>,
     ) {}
 
-    async loginByPassword(login: string, password: string) {
-        const user = await this.userRepo.findOne({ login });
+    async loginByPassword(username: string, password: string) {
+        const user = await this.userRepo.findOne({ username });
+
         if (!user) {
-            return invalidOperation('Не найден пользователь с таким логином');
+            return invalidOperation(`Cannot find user with such username: ${username}`);
         }
         if (!(await bcrypt.compare(password, user.password))) {
-            return badRequest(`Некорректный пароль`);
+            return badRequest(`Invalid password`);
         }
 
-        return { state: 'SUCCESS', accessToken: this.creteAccessToken(user.id) };
+        return { accessToken: this.creteAccessToken(user.id) };
     }
 
     async registerUser(args: RegisterPayload) {
-        const { email, login } = args;
-        console.log(args);
         const hashedPassword = await bcrypt.hash(args.password, 10);
         const id = v4();
         const accessToken = this.creteAccessToken(id);
-        await this.userRepo.create({ id, email, login, password: hashedPassword });
+        const user = this.userRepo.create({ id, email: args.email, username: args.username, password: hashedPassword });
+        try {
+            await this.userRepo.save(user);
+        } catch (e) {
+            return error('INTERNAL_ERROR', e.message, 500);
+        }
         return { accessToken };
     }
 

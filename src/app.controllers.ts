@@ -1,21 +1,17 @@
 import { Express, Response } from 'express';
 import { Action, useExpressServer } from 'routing-controllers';
 import { AuthController } from './controllers/AuthController';
+import { AppUser } from 'src/types';
+import { UserController } from 'src/controllers/UserController';
 
 // add new controller here
-const controllers = [AuthController];
-
-type AppUser = {
-    id: string;
-    login?: string;
-};
+const controllers = [AuthController, UserController];
 
 export const useControllers = (app: Express) => {
     useExpressServer(app, {
         routePrefix: '/api',
         controllers,
         defaultErrorHandler: false,
-        cors: true,
         currentUserChecker: (action: Action) => {
             const response: Response = action.response;
             return response.locals?.user;

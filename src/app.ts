@@ -10,6 +10,7 @@ import { createAuth } from './interceptors/authMiddleware';
 import { createErrorMiddleware } from './interceptors/errorMiddleware';
 import { createDbClientConnection } from './services/db-connection';
 import { logger } from './utils/logger';
+import cors from 'cors';
 
 export const createApp = async () => {
     useRoutingContainer(Container, { fallback: false, fallbackOnErrors: false });
@@ -18,7 +19,7 @@ export const createApp = async () => {
     await createDbClientConnection();
 
     const app = express();
-
+    app.use(cors());
     app.use(pinoExpress({ logger }));
     app.use(bodyParser.json());
     app.get('/ping', (_, res) => res.send('pong'));

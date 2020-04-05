@@ -9,14 +9,14 @@ export class Init1585521356637 implements MigrationInterface {
 
         await sql`CREATE TABLE IF NOT EXISTS users (
             id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
-            , login text NOT NULL
+            , username text NOT NULL UNIQUE
+            , email TEXT NOT NULL UNIQUE
             , password text NOT NULL
-            , email TEXT NOT NULL
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;
 
-        await sql`CREATE INDEX IF NOT EXISTS login_idx ON users(login)`;
+        await sql`CREATE INDEX IF NOT EXISTS username_idx ON users(username)`;
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
