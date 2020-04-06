@@ -12,6 +12,8 @@ export class Init1585521356637 implements MigrationInterface {
             , username text NOT NULL UNIQUE
             , email TEXT NOT NULL UNIQUE
             , password text NOT NULL
+            , reset_password_token text
+            , reset_password_expires timestamptz
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;

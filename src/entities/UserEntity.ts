@@ -22,4 +22,10 @@ export class UserEntity extends BaseEntity {
 
     @Column('text')
     password: string;
+
+    @Column('text')
+    resetPasswordToken: string | null;
+
+    @Column('timestamp')
+    resetPasswordExpires: Date | null;
 }

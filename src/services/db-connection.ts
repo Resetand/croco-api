@@ -18,5 +18,6 @@ export const createDbClientConnection = async () => {
         namingStrategy: new SnakeNamingStrategy(),
         logger: new TypeOrmLogger(logger),
         synchronize: false,
+        migrationsRun: false,
     });
 };

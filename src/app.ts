@@ -19,10 +19,12 @@ export const createApp = async () => {
     await createDbClientConnection();
 
     const app = express();
+
     app.use(cors());
     app.use(pinoExpress({ logger }));
     app.use(bodyParser.json());
     app.get('/ping', (_, res) => res.send('pong'));
+
     app.use(createAuth());
 
     useControllers(app);

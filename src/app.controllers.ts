@@ -1,7 +1,7 @@
 import { Express, Response } from 'express';
 import { Action, useExpressServer } from 'routing-controllers';
 import { AuthController } from './controllers/AuthController';
-import { AppUser } from 'src/types';
+import { AppUser } from 'src/types/common';
 import { UserController } from 'src/controllers/UserController';
 
 // add new controller here
