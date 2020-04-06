@@ -31,9 +31,4 @@ export const defaultConfig = {
         password: process.env.ROBOT_PASSWORD!,
         email: 'habits.robot@gmail.com',
     },
-
-    email: {
-        provider: 'Gmail',
-        apiKey: process.env.MAILCHIMP_API_KEY!,
-    },
 };

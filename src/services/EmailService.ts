@@ -14,7 +14,7 @@ export type ResetPasswordPayload = {
 export class EmailService {
     private createSmtpTransport() {
         const smtpTransport = nodemailer.createTransport({
-            service: config.email.provider,
+            service: 'Gmail',
             secure: false,
             auth: {
                 user: config.robot.email,
@@ -31,13 +31,12 @@ export class EmailService {
         const html = createHtml({ ...payload });
 
         try {
-            const res = await transport.sendMail({
+            return await transport.sendMail({
                 to: payload.userEmail,
                 from: config.robot.email,
                 subject: 'Reset a password!',
                 html,
             });
-            return res;
         } catch (e) {
             return internalError(e.message, { error: e });
         }
