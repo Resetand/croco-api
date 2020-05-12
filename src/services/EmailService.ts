@@ -28,7 +28,7 @@ export class EmailService {
     async sendResetPasswordMail(payload: ResetPasswordPayload) {
         const transport = this.createSmtpTransport();
         const createHtml = pug.compileFile(`${__dirname}/../templates/reset_password.pug`);
-        const html = createHtml({ ...payload });
+        const html = createHtml(payload);
 
         try {
             return await transport.sendMail({

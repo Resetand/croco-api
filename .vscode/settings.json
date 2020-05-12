@@ -33,7 +33,11 @@
   ],
   "cSpell.ignoreWords": [
     "mailchimp",
+    "open",
+    "openviducert",
+    "openvidukey",
     "smtp",
-    "transport"
+    "transport",
+    "vidu"
   ]
 }

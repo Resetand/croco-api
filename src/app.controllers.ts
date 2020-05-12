@@ -3,9 +3,10 @@ import { Action, useExpressServer } from 'routing-controllers';
 import { AuthController } from './controllers/AuthController';
 import { AppUser } from 'src/types/common';
 import { UserController } from 'src/controllers/UserController';
+import { MediaController } from 'src/controllers/MediaController';
 
 // add new controller here
-const controllers = [AuthController, UserController];
+const controllers = [AuthController, UserController, MediaController];
 
 export const useControllers = (app: Express) => {
     useExpressServer(app, {

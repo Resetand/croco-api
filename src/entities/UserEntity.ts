@@ -12,20 +12,20 @@ export type User = {
 @Entity('users')
 export class UserEntity extends BaseEntity {
     @PrimaryColumn('uuid')
-    id: string;
+    id!: string;
 
     @Column('text')
-    username: string;
+    username!: string;
 
     @Column('text')
-    email: string;
+    email!: string;
 
     @Column('text')
-    password: string;
+    password!: string;
 
     @Column('text')
-    resetPasswordToken: string | null;
+    resetPasswordToken?: string | null;
 
     @Column('timestamp')
-    resetPasswordExpires: Date | null;
+    resetPasswordExpires?: Date | null;
 }

@@ -2,8 +2,8 @@ import { Column } from 'typeorm';
 
 export abstract class BaseEntity {
     @Column('timestamp')
-    createdAt: Date;
+    createdAt!: Date;
 
     @Column('timestamp')
-    updatedAt: Date;
+    updatedAt!: Date;
 }

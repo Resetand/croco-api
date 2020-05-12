@@ -1,4 +1,5 @@
 import { ApiEnv } from 'src/config';
+
 require('dotenv').config();
 
 export const defaultConfig = {
@@ -13,10 +14,9 @@ export const defaultConfig = {
     db: {
         type: 'postgres' as const,
         port: 5433,
-        host: 'localhost',
-        username: 'habits',
-        password: 'habits',
-        database: 'habits_db',
+        username: 'croco',
+        password: 'croco',
+        database: 'croco_db',
         schema: 'public',
         entities: ['src/entities/**/*.ts'],
         migrations: ['src/migrations/**/*.ts'],
@@ -27,8 +27,14 @@ export const defaultConfig = {
     },
 
     robot: {
+        id: '0308075d-da46-4827-b7c8-8213f764d1a3',
         googleUsername: 'habits.robot',
         password: process.env.ROBOT_PASSWORD!,
         email: 'habits.robot@gmail.com',
+    },
+
+    mediaServer: {
+        secret: process.env.OPENVIDU_SECRET!,
+        url: `https://localhost:4443`,
     },
 };

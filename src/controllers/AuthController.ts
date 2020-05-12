@@ -1,5 +1,18 @@
+import { IsDefined, IsEmail } from 'class-validator';
 import { Body, JsonController, Post } from 'routing-controllers';
-import { AuthService, RegisterPayload } from 'src/services/AuthService';
+import { AuthService } from 'src/services/AuthService';
+
+class RegisterBody {
+    @IsEmail()
+    @IsDefined()
+    email!: string;
+
+    @IsDefined()
+    username!: string;
+
+    @IsDefined()
+    password!: string;
+}
 
 @JsonController('/auth')
 export class AuthController {
@@ -11,7 +24,7 @@ export class AuthController {
     }
 
     @Post('/register')
-    async register(@Body() body: RegisterPayload) {
+    async register(@Body() body: RegisterBody) {
         return this.authService.registerUser({ ...body });
     }
 
