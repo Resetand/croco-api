@@ -1,5 +1,5 @@
 import { ApiEnv } from 'src/config';
-
+import ip from 'ip';
 require('dotenv').config();
 
 export const defaultConfig = {
@@ -14,6 +14,7 @@ export const defaultConfig = {
     db: {
         type: 'postgres' as const,
         port: 5433,
+        host: ip.address(),
         username: 'croco',
         password: 'croco',
         database: 'croco_db',

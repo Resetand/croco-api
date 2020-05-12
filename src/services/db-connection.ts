@@ -7,7 +7,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 export const createDbClientConnection = async () => {
     return createConnection({
         type: config.db.type,
-        // host: config.db.host,
+        host: config.db.host,
         port: config.db.port,
         username: config.db.username,
         password: config.db.password,
