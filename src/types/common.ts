@@ -2,7 +2,6 @@ export type JwtPayload = {
     sub: string;
 };
 
-export type AppUser = {
+export type BaseUser = {
     id: string;
-    username?: string;
 };

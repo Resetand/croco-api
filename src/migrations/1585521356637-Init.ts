@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { makeTypeOrmSql, SqlQuery } from 'src/utils/migrations';
 import { config } from 'src/config';
+import bcrypt from 'bcrypt';
 
 export class Init1585521356637 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
@@ -9,27 +10,17 @@ export class Init1585521356637 implements MigrationInterface {
         await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
         await this.createUser(sql);
-        await this.createRooms(sql);
+        await this.createLobby(sql);
     }
 
-    public async createRooms(sql: SqlQuery) {
-        await sql`CREATE TABLE IF NOT EXISTS rooms (
+    public async createLobby(sql: SqlQuery) {
+        await sql`CREATE TABLE IF NOT EXISTS lobbies (
             id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
-            , name text NOT NULL
+            , hr_id text NOT NULL UNIQUE 
+            , name text
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;
-
-        await sql`CREATE TABLE IF NOT EXISTS user_rooms (
-            room_id uuid NOT NULL REFERENCES rooms(id) 
-            , user_id uuid NOT NULL REFERENCES users(id) 
-            , updated_at timestamptz NOT NULL DEFAULT now()
-            , created_at timestamptz NOT NULL DEFAULT now()
-            , CONSTRAINT user_rooms_pkey PRIMARY KEY (room_id, user_id)
-        )`;
-
-        await sql`CREATE INDEX IF NOT EXISTS user_rooms_room_id_idx ON user_rooms (room_id)`;
-        await sql`CREATE INDEX IF NOT EXISTS user_rooms_user_id_idx ON user_rooms (user_id)`;
     }
 
     public async createUser(sql: SqlQuery) {
@@ -47,7 +38,7 @@ export class Init1585521356637 implements MigrationInterface {
         await sql`CREATE INDEX IF NOT EXISTS username_idx ON users(username)`;
 
         await sql`INSERT INTO users (id, username, email, password) values (
-            ${config.robot.id}, ${'robot'}, ${config.robot.email}, ${''}
+            ${config.robot.id}, ${'robot'}, ${config.robot.email}, ${bcrypt.hashSync(config.robot.password, 10)}
         )`;
     }
 
@@ -55,7 +46,7 @@ export class Init1585521356637 implements MigrationInterface {
         const sql = makeTypeOrmSql(queryRunner);
 
         await sql`DROP TABLE IF EXISTS users`;
-        await sql`DROP TABLE IF EXISTS rooms`;
-        await sql`DROP TABLE IF EXISTS user_rooms`;
+        await sql`DROP TABLE IF EXISTS lobbies`;
+        await sql`DROP TABLE IF EXISTS lobby_connections`;
     }
 }

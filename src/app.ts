@@ -12,6 +12,7 @@ import { createErrorMiddleware } from './interceptors/errorMiddleware';
 import { logger } from './utils/logger';
 
 export const createApp = () => {
+    // const container = Container.of(v4());
     useRoutingContainer(Container, { fallback: false, fallbackOnErrors: false });
     useTypeOrmContainer(Container, { fallback: false, fallbackOnErrors: false });
 

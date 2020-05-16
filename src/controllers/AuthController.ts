@@ -2,11 +2,19 @@ import { IsDefined, IsEmail } from 'class-validator';
 import { Body, JsonController, Post } from 'routing-controllers';
 import { AuthService } from 'src/services/AuthService';
 
-class RegisterBody {
+class RegisterSchema {
     @IsEmail()
     @IsDefined()
     email!: string;
 
+    @IsDefined()
+    username!: string;
+
+    @IsDefined()
+    password!: string;
+}
+
+class LoginSchema {
     @IsDefined()
     username!: string;
 
@@ -19,12 +27,12 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('/login')
-    async login(@Body() body: { username: string; password: string }) {
+    async login(@Body() body: LoginSchema) {
         return this.authService.loginByPassword(body.username, body.password);
     }
 
     @Post('/register')
-    async register(@Body() body: RegisterBody) {
+    async register(@Body() body: RegisterSchema) {
         return this.authService.registerUser({ ...body });
     }
 

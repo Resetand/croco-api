@@ -1,4 +1,4 @@
-import { createDbClientConnection } from '../../services/db-connection';
+import { createDbClientConnection } from '../../db/connections';
 import { Logger } from 'pino';
 import { Connection, Migration } from 'typeorm';
 import { makeTypeOrmSql } from '../../utils/migrations';
