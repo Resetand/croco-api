@@ -34,6 +34,14 @@ export class MediaServerService {
             return session;
         }
 
+        const userPublishes = session.activeConnections
+            .filter((x) => JSON.parse(x.serverData).userId === userId)
+            .flatMap((x) => x.publishers);
+
+        for (const pub of userPublishes) {
+            await session.forceUnpublish(pub);
+        }
+
         return session
             .generateToken({ data: JSON.stringify({ userId, username }) })
             .catch((origError) => internalError('Error while generate media-server token', { lobbyId, origError }));
