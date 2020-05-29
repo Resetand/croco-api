@@ -1,5 +1,5 @@
 import { CurrentUser, Get, JsonController } from 'routing-controllers';
-import { UserService } from 'src/services/UserService';
+import { UserService } from 'src/modules/user/UserService';
 import { BaseUser } from 'src/types/common';
 
 @JsonController('/user')

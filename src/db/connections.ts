@@ -5,7 +5,7 @@ import { TypeOrmLogger } from 'src/utils/TypeOrmLogger';
 import { createConnection } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-export const createDbClientConnection = async () => {
+export const createDbConnection = async () => {
     return createConnection({
         type: config.db.type,
         host: config.db.host,
@@ -17,7 +17,8 @@ export const createDbClientConnection = async () => {
         migrations: config.db.migrations,
         schema: config.db.schema,
         namingStrategy: new SnakeNamingStrategy(),
-        logger: new TypeOrmLogger(logger),
+        logger: new TypeOrmLogger(),
+        // logging: ['query', 'error'],
         synchronize: false,
         migrationsRun: false,
     });

@@ -4,4 +4,6 @@ export type JwtPayload = {
 
 export type BaseUser = {
     id: string;
+    username: string;
+    email: string;
 };

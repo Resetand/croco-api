@@ -1,7 +1,6 @@
-import { JsonController, Post, Body, Get, Param, CurrentUser } from 'routing-controllers';
-import { LobbyService } from 'src/services/LobbyService';
 import { IsOptional, IsString } from 'class-validator';
-import { BaseUser } from 'src/types/common';
+import { Body, Get, JsonController, Post } from 'routing-controllers';
+import { LobbyService } from 'src/modules/lobby/LobbyService';
 
 class CreateLobbySchema {
     @IsOptional()
@@ -21,10 +20,5 @@ export class LobbyController {
     @Get('/')
     getLobbies() {
         return this.lobbyService.getLobbies();
-    }
-
-    @Post('/:anyLobbyId/token')
-    getSessionToken(@Param('anyLobbyId') anyLobbyId: string, @CurrentUser() user: BaseUser) {
-        return this.lobbyService.connectToLobby({ anyLobbyId, userId: user.id });
     }
 }

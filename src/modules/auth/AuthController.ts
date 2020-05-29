@@ -1,6 +1,6 @@
 import { IsDefined, IsEmail } from 'class-validator';
 import { Body, JsonController, Post } from 'routing-controllers';
-import { AuthService } from 'src/services/AuthService';
+import { AuthService } from 'src/modules/auth/AuthService';
 
 class RegisterSchema {
     @IsEmail()

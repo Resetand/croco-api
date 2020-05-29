@@ -7,8 +7,19 @@ export class LobbyMessageEntity extends BaseEntity {
     id!: string;
 
     @Column('text')
-    text!: string;
+    content!: string;
 
     @Column('uuid')
     userId!: string;
+
+    // @ManyToOne(() => UserEntity)
+    // @JoinColumn({ referencedColumnName: 'id', name: 'user_id' })
+    // user: UserEntity;
+
+    @Column('uuid')
+    lobbyId!: string;
+
+    // @ManyToOne(() => LobbyEntity)
+    // @JoinColumn()
+    // lobby: LobbyEntity;
 }

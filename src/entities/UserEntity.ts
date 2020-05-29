@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, ManyToOne } from 'typeorm';
 import { BaseEntity } from './BaseEntity';
+import { GameSessionEntity } from 'src/entities/GameSessionEntity';
 
 export type User = {
     username: string;
@@ -13,6 +14,9 @@ export type User = {
 export class UserEntity extends BaseEntity {
     @PrimaryColumn('uuid')
     id!: string;
+
+    // @ManyToOne(() => GameSessionEntity)
+    // gameSessions!: GameSessionEntity[];
 
     @Column('text')
     username!: string;

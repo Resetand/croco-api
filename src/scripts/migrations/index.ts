@@ -1,4 +1,4 @@
-import { createDbClientConnection } from '../../db/connections';
+import { createDbConnection } from '../../db/connections';
 import { Logger } from 'pino';
 import { Connection, Migration } from 'typeorm';
 import { makeTypeOrmSql } from '../../utils/migrations';
@@ -30,7 +30,7 @@ const withAdvisoryLock = async (
 export async function runMigrations(command: CommandType, logger: Logger) {
     let connection: Connection | undefined = undefined;
     try {
-        connection = await createDbClientConnection();
+        connection = await createDbConnection();
 
         if (command === 'up') {
             logger.info('up migrations');

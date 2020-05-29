@@ -9,21 +9,78 @@ export class Init1585521356637 implements MigrationInterface {
 
         await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
-        await this.createUser(sql);
-        await this.createLobby(sql);
+        await this.handleUser(sql);
+        await this.handleLobby(sql);
+        await this.handleTerms(sql);
+        await this.handleGame(sql);
     }
 
-    public async createLobby(sql: SqlQuery) {
-        await sql`CREATE TABLE IF NOT EXISTS lobbies (
-            id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
-            , hr_id text NOT NULL UNIQUE 
-            , name text
+    public async handleGame(sql: SqlQuery) {
+        await sql`CREATE TABLE IF NOT EXISTS game_sessions (
+              id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
+            , term_id uuid NOT NULL REFERENCES terms(id) 
+            , player_id uuid NOT NULL REFERENCES users(id) 
+            , lobby_id text NULL REFERENCES lobbies(id) 
+            , start_at timestamptz NOT NULL 
+            , duration int NOT NULL
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;
     }
 
-    public async createUser(sql: SqlQuery) {
+    public async handleTerms(sql: SqlQuery) {
+        await sql`CREATE TABLE IF NOT EXISTS term_categories (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
+            , locale text NOT NULL
+            , name text NOT NULL
+            , updated_at timestamptz NOT NULL DEFAULT now()
+            , created_at timestamptz NOT NULL DEFAULT now()
+        )`;
+        await sql`CREATE TABLE IF NOT EXISTS terms (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
+            , content text
+            , category_id uuid NOT NULL REFERENCES term_categories(id)
+            , updated_at timestamptz NOT NULL DEFAULT now()
+            , created_at timestamptz NOT NULL DEFAULT now()
+        )`;
+    }
+
+    public async handleLobby(sql: SqlQuery) {
+        await sql`CREATE TABLE IF NOT EXISTS lobbies (
+            id text NOT NULL PRIMARY KEY  
+            , name text 
+            , updated_at timestamptz NOT NULL DEFAULT now()
+            , created_at timestamptz NOT NULL DEFAULT now()
+        )`;
+
+        // await sql`CREATE INDEX IF NOT EXISTS lobbies_hr_id_indx ON lobbies(hr_id)`;
+
+        await sql`CREATE TABLE IF NOT EXISTS lobby_users (
+            lobby_id text NOT NULL REFERENCES lobbies(id)
+            , user_id uuid NOT NULL REFERENCES users(id)
+            , updated_at timestamptz NOT NULL DEFAULT now()
+            , created_at timestamptz NOT NULL DEFAULT now()
+            , PRIMARY KEY(lobby_id,  user_id)
+        )`;
+
+        await sql`CREATE INDEX IF NOT EXISTS lobby_users_lobby_id_indx ON lobby_users(lobby_id)`;
+        await sql`CREATE INDEX IF NOT EXISTS lobby_users_user_id_indx ON lobby_users(user_id)`;
+
+        await sql`CREATE TABLE IF NOT EXISTS lobby_messages (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
+            , content text NOT NULL 
+            , user_id uuid NOT NULL REFERENCES users(id)
+            , lobby_id text NOT NULL REFERENCES lobbies(id)
+            , updated_at timestamptz NOT NULL DEFAULT now()
+            , created_at timestamptz NOT NULL DEFAULT now()
+            )
+        `;
+
+        await sql`CREATE INDEX IF NOT EXISTS lobby_messages_lobby_id_indx ON lobby_messages(lobby_id)`;
+        await sql`CREATE INDEX IF NOT EXISTS lobby_messages_user_id_indx ON lobby_messages(user_id)`;
+    }
+
+    public async handleUser(sql: SqlQuery) {
         await sql`CREATE TABLE IF NOT EXISTS users (
             id uuid PRIMARY KEY DEFAULT uuid_generate_v4()
             , username TEXT NOT NULL UNIQUE
@@ -47,6 +104,9 @@ export class Init1585521356637 implements MigrationInterface {
 
         await sql`DROP TABLE IF EXISTS users`;
         await sql`DROP TABLE IF EXISTS lobbies`;
-        await sql`DROP TABLE IF EXISTS lobby_connections`;
+        await sql`DROP TABLE IF EXISTS lobby_users`;
+        await sql`DROP TABLE IF EXISTS lobby_messages`;
+        await sql`DROP TABLE IF EXISTS term_categories`;
+        await sql`DROP TABLE IF EXISTS terms`;
     }
 }

@@ -1,6 +1,5 @@
 import { OpenVidu } from 'openvidu-node-client';
 import { config } from 'src/config';
-import { logger } from 'src/utils/logger';
 import { internalError, isError } from 'src/utils/result';
 import { Service } from 'typedi';
 
@@ -33,11 +32,6 @@ export class MediaServerService {
 
         if (isError(session)) {
             return session;
-        }
-        const activeConnection = session.activeConnections.find((x) => JSON.parse(x.serverData).userId === userId);
-        if (activeConnection) {
-            await session.forceDisconnect(activeConnection);
-            logger.info('user has forceDisconnected from lobby');
         }
 
         return session

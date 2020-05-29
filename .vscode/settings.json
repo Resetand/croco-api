@@ -32,12 +32,16 @@
     "typescript"
   ],
   "cSpell.ignoreWords": [
+    "force",
     "mailchimp",
+    "middlewares",
     "open",
+    "openvidu",
     "openviducert",
     "openvidukey",
     "smtp",
     "transport",
+    "unpublish",
     "vidu"
   ]
 }
