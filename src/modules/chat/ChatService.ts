@@ -1,4 +1,4 @@
-import { QueryResult } from 'pg';
+import { pick } from 'lodash';
 import { DbClient, Transaction } from 'src/db/client';
 import { LobbyMessageEntity } from 'src/entities/LobbyMessageEntity';
 import { LobbyUserEntity } from 'src/entities/LobbyUserEntity';
@@ -6,9 +6,6 @@ import { UserEntity } from 'src/entities/UserEntity';
 import { forbidden, isError, Result } from 'src/utils/result';
 import { Inject, Service } from 'typedi';
 import { v4 } from 'uuid';
-import { pick } from 'lodash';
-
-const PAGE_SIZE = 100;
 
 type SelectArgs = {
     userId: string;

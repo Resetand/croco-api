@@ -51,6 +51,7 @@ export class AuthMiddleware implements ExpressMiddlewareInterface {
         if (isError(result)) {
             return next(result);
         }
+
         response.locals.user = result;
         next();
     }

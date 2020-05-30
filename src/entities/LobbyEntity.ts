@@ -8,4 +8,7 @@ export class LobbyEntity extends BaseEntity {
 
     @Column('text')
     name!: string;
+
+    @Column('text')
+    termsCategoryId?: string;
 }

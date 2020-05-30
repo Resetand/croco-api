@@ -170,7 +170,7 @@ export class AuthService {
             });
 
             if (!user) {
-                return notFound('user not found');
+                return unauthorized('user not found');
             }
 
             return user;

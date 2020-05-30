@@ -7,18 +7,14 @@ export class GameSessionEntity extends BaseEntity {
     id!: string;
 
     @Column('uuid')
+    lobbyId!: string;
+
+    @Column('uuid')
     termId!: string;
 
     @Column('timestamp')
-    startAt!: Date;
-
-    @Column('int')
-    duration!: number;
+    deadlineAt!: Date;
 
     @Column('uuid')
     playerId!: string;
-
-    // @ManyToOne(() => UserEntity)
-    // @JoinColumn({ referencedColumnName: 'id' })
-    // player: UserEntity;
 }

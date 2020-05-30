@@ -10,8 +10,8 @@ export class Init1585521356637 implements MigrationInterface {
         await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
         await this.handleUser(sql);
-        await this.handleLobby(sql);
         await this.handleTerms(sql);
+        await this.handleLobby(sql);
         await this.handleGame(sql);
     }
 
@@ -21,8 +21,7 @@ export class Init1585521356637 implements MigrationInterface {
             , term_id uuid NOT NULL REFERENCES terms(id) 
             , player_id uuid NOT NULL REFERENCES users(id) 
             , lobby_id text NULL REFERENCES lobbies(id) 
-            , start_at timestamptz NOT NULL 
-            , duration int NOT NULL
+            , deadline_at timestamptz NOT NULL
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;
@@ -49,6 +48,7 @@ export class Init1585521356637 implements MigrationInterface {
         await sql`CREATE TABLE IF NOT EXISTS lobbies (
             id text NOT NULL PRIMARY KEY  
             , name text 
+            , terms_category_id uuid NULL REFERENCES term_categories(id)
             , updated_at timestamptz NOT NULL DEFAULT now()
             , created_at timestamptz NOT NULL DEFAULT now()
         )`;
@@ -103,10 +103,10 @@ export class Init1585521356637 implements MigrationInterface {
         const sql = makeTypeOrmSql(queryRunner);
 
         await sql`DROP TABLE IF EXISTS users`;
+        await sql`DROP TABLE IF EXISTS term_categories`;
+        await sql`DROP TABLE IF EXISTS terms`;
         await sql`DROP TABLE IF EXISTS lobbies`;
         await sql`DROP TABLE IF EXISTS lobby_users`;
         await sql`DROP TABLE IF EXISTS lobby_messages`;
-        await sql`DROP TABLE IF EXISTS term_categories`;
-        await sql`DROP TABLE IF EXISTS terms`;
     }
 }
