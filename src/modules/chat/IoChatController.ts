@@ -63,3 +63,7 @@ export class IoChatController {
         io.of(`/chat/${lobbyId}`).emit(ioEvent('chat.messages.broadcast.new'), message);
     }
 }
+/**
+ *
+ *
+ */

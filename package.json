@@ -11,7 +11,8 @@
     "migration": "ts-node -r tsconfig-paths/register src/scripts/migrations/run",
     "migration:create": "typeorm migration:create -n",
     "media-server": "export $(grep -v '^#' .env | xargs -0); docker run -p 4443:4443 --rm -e  OPENVIDU_SECRET=$OPENVIDU_SECRET openvidu/openvidu-server-kms:2.13.0",
-    "lint": "eslint src --ext=.ts"
+    "lint": "eslint src --ext=.ts",
+    "cli": "ts-node --files -r tsconfig-paths/register"
   },
   "husky": {
     "hooks": {
