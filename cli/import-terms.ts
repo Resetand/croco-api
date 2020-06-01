@@ -6,4 +6,5 @@ import { TermsService } from 'src/Services/TermsService';
 (async () => {
     const container = await bootstrapDi();
     const termsService = container.get(TermsService);
+    console.log(termsService);
 })();
