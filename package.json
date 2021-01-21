@@ -93,7 +93,7 @@
     "serialize-error": "6.0.0",
     "shortid": "2.2.15",
     "socket-controllers": "0.0.5",
-    "socket.io": "2.3.0",
+    "socket.io": "2.4.0",
     "sql-template-strings": "2.2.2",
     "typedi": "0.8.0",
     "typeorm": "0.2.24",
