@@ -79,7 +79,7 @@
     "lodash": "4.17.15",
     "mem": "6.1.0",
     "node-ip": "0.1.2",
-    "nodemailer": "6.4.6",
+    "nodemailer": "6.4.16",
     "nodemailer-express-handlebars": "4.0.0",
     "openvidu-node-client": "2.13.0",
     "pg": "7.18.2",
